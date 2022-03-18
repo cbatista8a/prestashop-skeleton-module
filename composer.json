@@ -1,0 +1,35 @@
+{
+  "name": "cbatista8a/cdskeletron",
+  "description": "A base prestashop module for development",
+  "minimum-stability": "stable",
+  "license": "MIT",
+  "authors": [
+    {
+      "name": "Cuba DevOps",
+      "email": "info@cubadevops.com"
+    }
+  ],
+  "autoload": {
+    "psr-4": {
+      "CubaDevOps\\" : "src"
+    },
+    "classmap": [
+      "controllers",
+      "classes"
+    ]
+  },
+  "require": {
+    "composer/composer": "*"
+  }
+  ,
+  "require-dev": {
+    "roave/security-advisories": "dev-latest",
+    "prestashop/autoindex": "*",
+    "friendsofphp/php-cs-fixer": "*",
+    "phpunit/phpunit": "*"
+  },
+  "config": {
+    "prepend-autoloader": false
+  },
+  "type": "prestashop-module"
+}
