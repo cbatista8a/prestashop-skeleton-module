@@ -61,3 +61,8 @@ composer.phar
 # Embedded web-server pid file
 /.web-server-pid
 
+/composer.lock
+/composer-setup.php
+
+# Mac OS
+*.DS_Store
