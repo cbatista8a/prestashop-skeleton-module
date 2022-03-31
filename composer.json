@@ -15,11 +15,13 @@
     },
     "classmap": [
       "controllers",
-      "classes"
+      "classes",
+      "cdskeletron.php"
     ]
   },
   "require": {
-    "composer/composer": "*"
+    "php": ">=7.0",
+    "composer/composer": ">=2.0"
   }
   ,
   "require-dev": {
