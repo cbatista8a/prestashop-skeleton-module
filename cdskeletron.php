@@ -24,6 +24,7 @@
  *  International Registered Trademark & Property of PrestaShop SA
  */
 
+use CubaDevOps\utils\RoutesLoader;
 use PrestaShop\PrestaShop\Core\Module\WidgetInterface;
 
 if (!defined('_PS_VERSION_')) {
@@ -47,6 +48,7 @@ class CdSkeletron extends Module implements WidgetInterface
     private $shop_id;
 
     private $html;
+    private $routingConfigLoader;
 
     public function __construct()
     {
@@ -71,6 +73,7 @@ class CdSkeletron extends Module implements WidgetInterface
         $this->shop_id = $this->context->shop->id;
 
         $this->autoload();
+        $this->routingConfigLoader = new RoutesLoader($this->local_path . 'config');
     }
 
     private function autoload()
@@ -351,22 +354,30 @@ class CdSkeletron extends Module implements WidgetInterface
         $this->context->controller->addCSS($this->_path . '/views/css/front.css');
     }
 
+    /**
+     * @param $params
+     * @return string[]
+     * @throws Exception
+     */
     public function hookModuleRoutes($params)
     {
-        //TODO create and automatic for PS>1.7 get front_routes.yml (see ModuleTabRegister::getModuleControllersFromRouting)
+        return $this->getFrontControllersRouting();
+    }
 
-        return [
-            'example' => [
-                'controller' => 'example',
-                'rule' => 'custom-url',
-                'keywords' => [],
-                'params' => [
-                    'fc' => 'module',
-                    'module' => $this->name,
-                    'controller' => 'example',
-                ],
-            ]
-        ];
+    /**
+     * Load routes automatically from config/front.yml
+     *
+     * @return string[]
+     *
+     * @throws Exception
+     */
+    protected function getFrontControllersRouting(): array
+    {
+        if (!file_exists($this->local_path . 'config/front.yml')) {
+            return [];
+        }
+
+        return $this->routingConfigLoader->load('front.yml', true);
     }
 
     public function renderWidget($hookName, array $configuration)

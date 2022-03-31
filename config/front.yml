@@ -1,0 +1,8 @@
+front-example:
+  path: custom-url
+  methods: [GET]
+  defaults:
+#    is mandatory the name of module for custom legacy routes loader
+    _module: 'cdskeletron'
+    _controller: 'example'
+    _legacy_controller: AdminController
