@@ -78,8 +78,8 @@ class CdSkeletron extends Module implements WidgetInterface
 
     private function autoload()
     {
-        if (file_exists(_PS_MODULE_DIR_.$this->name.'/vendor/autoload.php')){
-            require_once _PS_MODULE_DIR_.$this->name.'/vendor/autoload.php';
+        if (file_exists(_PS_MODULE_DIR_ . $this->name . '/vendor/autoload.php')) {
+            require_once _PS_MODULE_DIR_ . $this->name . '/vendor/autoload.php';
         }
     }
 
@@ -89,6 +89,8 @@ class CdSkeletron extends Module implements WidgetInterface
         return parent::install() &&
             $this->registerHooks();
     }
+
+    //TODO implement install and uninstall sql and tabs
 
     public function registerHooks()
     {
@@ -339,7 +341,7 @@ class CdSkeletron extends Module implements WidgetInterface
      */
     public function hookBackOfficeHeader()
     {
-        if (Tools::getValue('configure') == $this->name) {
+        if (Tools::getValue('configure') === $this->name) {
             $this->context->controller->addJS($this->_path . 'views/js/back.js');
             $this->context->controller->addCSS($this->_path . 'views/css/back.css');
         }
