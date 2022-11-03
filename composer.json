@@ -33,5 +33,8 @@
   "config": {
     "prepend-autoloader": false
   },
-  "type": "prestashop-module"
+  "type": "prestashop-module",
+  "scripts": {
+    "format": "./vendor/bin/php-cs-fixer fix . --rules=@PSR12,@Symfony"
+  }
 }
