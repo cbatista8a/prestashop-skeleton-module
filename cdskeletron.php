@@ -73,6 +73,7 @@ class CdSkeletron extends Module implements WidgetInterface
 
     public function install()
     {
+        include(dirname(__FILE__).'/sql/install.php');
         return parent::install() &&
             $this->registerHooks();
     }
@@ -91,6 +92,7 @@ class CdSkeletron extends Module implements WidgetInterface
 
     public function uninstall()
     {
+        include(dirname(__FILE__).'/sql/uninstall.php');
         $this->deleteConfigValues();
         return parent::uninstall();
     }
