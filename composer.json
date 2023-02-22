@@ -29,9 +29,9 @@
   }
   ,
   "require-dev": {
-    "prestashop/autoindex": "*",
-    "friendsofphp/php-cs-fixer": "*",
-    "phpunit/phpunit": "*"
+    "prestashop/autoindex": "v2.1.0",
+    "friendsofphp/php-cs-fixer": "v3.14.4",
+    "phpunit/phpunit": "v9.6.3"
   },
   "config": {
     "prepend-autoloader": false
