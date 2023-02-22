@@ -11,7 +11,7 @@
   ],
   "autoload": {
     "psr-4": {
-      "CubaDevOps\\" : "src"
+      "CubaDevOps\\Skeleton\\" : "src/"
     },
     "classmap": [
       "controllers",
@@ -19,13 +19,16 @@
       "skeleton.php"
     ]
   },
+  "autoload-dev": {
+    "psr-4": {
+      "CubaDevOps\\Test\\": "tests/"
+    }
+  },
   "require": {
-    "php": ">=7.0",
-    "composer/composer": ">=2.0"
+    "php": ">=7.0"
   }
   ,
   "require-dev": {
-    "roave/security-advisories": "dev-latest",
     "prestashop/autoindex": "*",
     "friendsofphp/php-cs-fixer": "*",
     "phpunit/phpunit": "*"
@@ -35,6 +38,7 @@
   },
   "type": "prestashop-module",
   "scripts": {
-    "format": "./vendor/bin/php-cs-fixer fix . --rules=@PSR12,@Symfony"
+    "format": "./vendor/bin/php-cs-fixer fix . --rules=@PSR12,@Symfony",
+    "test": "./vendor/bin/phpunit tests"
   }
 }

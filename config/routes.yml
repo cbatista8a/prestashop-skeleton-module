@@ -2,7 +2,7 @@ example:
   path: skeleton/example
   methods: [GET]
   defaults:
-    _controller: 'CubaDevOps\controllers\admin\Example::example'
+    _controller: 'CubaDevOps\Skeleton\controllers\admin\Example::example'
     _disable_module_prefix: true
 
 #    Todo attach csrf token automatically to route url for prevent error on BO
