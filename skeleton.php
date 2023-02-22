@@ -48,10 +48,10 @@ class Skeleton extends Module implements WidgetInterface
 
         parent::__construct();
 
-        $this->displayName = $this->l('Skeleton Module');
-        $this->description = $this->l('A base module for Prestashop development');
+        $this->displayName = $this->trans('Skeleton Module',[],'Modules.Skeleton.Admin');
+        $this->description = $this->trans('A base module for Prestashop development',[],'Modules.Skeleton.Admin');
 
-        $this->confirmUninstall = $this->l('Are you sure you want uninstall this module?');
+        $this->confirmUninstall = $this->trans('Are you sure you want uninstall this module?',[],'Modules.Skeleton.Admin');
 
         $this->ps_versions_compliancy = array('min' => '1.7', 'max' => _PS_VERSION_);
 
@@ -267,45 +267,45 @@ class Skeleton extends Module implements WidgetInterface
         return array(
             'form' => array(
                 'legend' => array(
-                    'title' => $this->l('Settings'),
+                    'title' => $this->trans('Settings',[],'Modules.Skeleton.Admin'),
                     'icon' => 'icon-cogs',
                 ),
                 'input' => array(
                     array(
                         'type' => 'switch',
-                        'label' => $this->l('Enable'),
+                        'label' => $this->trans('Enable',[],'Modules.Skeleton.Admin'),
                         'name' => self::PREFIX . 'ACTIVE',
                         'is_bool' => true,
-                        'desc' => $this->l('Enable or disable this module'),
+                        'desc' => $this->trans('Enable or disable this module',[],'Modules.Skeleton.Admin'),
                         'values' => array(
                             array(
                                 'id' => 'active_on',
                                 'value' => true,
-                                'label' => $this->l('Yes')
+                                'label' => $this->trans('Yes',[],'Modules.Skeleton.Admin')
                             ),
                             array(
                                 'id' => 'active_off',
                                 'value' => false,
-                                'label' => $this->l('No')
+                                'label' => $this->trans('No',[],'Modules.Skeleton.Admin')
                             )
                         ),
                     ),
                     array(
                         'type' => 'switch',
-                        'label' => $this->l('Live mode'),
+                        'label' => $this->trans('Live mode',[],'Modules.Skeleton.Admin'),
                         'name' => self::PREFIX . 'LIVE_MODE',
                         'is_bool' => true,
-                        'desc' => $this->l('Use this module in live mode'),
+                        'desc' => $this->trans('Use this module in live mode',[],'Modules.Skeleton.Admin'),
                         'values' => array(
                             array(
                                 'id' => 'active_on',
                                 'value' => true,
-                                'label' => $this->l('Production')
+                                'label' => $this->trans('Production',[],'Modules.Skeleton.Admin')
                             ),
                             array(
                                 'id' => 'active_off',
                                 'value' => false,
-                                'label' => $this->l('Demo')
+                                'label' => $this->trans('Demo',[],'Modules.Skeleton.Admin')
                             )
                         ),
                     ),
@@ -313,13 +313,13 @@ class Skeleton extends Module implements WidgetInterface
                         'col' => 4,
                         'type' => 'text',
                         'prefix' => '<i class="icon icon-envelope"></i>',
-                        'desc' => $this->l('Example Field'),
+                        'desc' => $this->trans('Example Field',[],'Modules.Skeleton.Admin'),
                         'name' => self::PREFIX . 'TEXT',
-                        'label' => $this->l('Text'),
+                        'label' => $this->trans('Text',[],'Modules.Skeleton.Admin'),
                     ),
                 ),
                 'submit' => array(
-                    'title' => $this->l('Save'),
+                    'title' => $this->trans('Save',[],'Modules.Skeleton.Admin'),
                 ),
             ),
         );
