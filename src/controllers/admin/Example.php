@@ -22,7 +22,7 @@ class Example extends FrameworkBundleAdminController
     /**
      * @var string
      */
-    public $template_path = '@Modules/cdskeletron/src/views/';
+    public $template_path = '@Modules/skeleton/src/views/';
 
     public function example()
     {

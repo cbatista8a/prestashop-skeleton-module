@@ -18,7 +18,7 @@ if (!defined('_PS_VERSION_')) {
     exit;
 }
 
-class CdSkeletron extends Module implements WidgetInterface
+class Skeleton extends Module implements WidgetInterface
 {
     private const PREFIX = 'CD_';
     /**
@@ -39,7 +39,7 @@ class CdSkeletron extends Module implements WidgetInterface
 
     public function __construct()
     {
-        $this->name = 'cdskeletron';
+        $this->name = 'skeleton';
         $this->tab = 'administration';
         $this->version = '1.0.1';
         $this->author = 'Cuba Devops';
@@ -48,7 +48,7 @@ class CdSkeletron extends Module implements WidgetInterface
 
         parent::__construct();
 
-        $this->displayName = $this->l('Skeletron Module');
+        $this->displayName = $this->l('Skeleton Module');
         $this->description = $this->l('A base module for Prestashop development');
 
         $this->confirmUninstall = $this->l('Are you sure you want uninstall this module?');

@@ -12,7 +12,7 @@
  */
 
 
-class cdskeletronExampleModuleFrontController extends ModuleFrontController
+class skeletonExampleModuleFrontController extends ModuleFrontController
 {
     public function initContent()
     {

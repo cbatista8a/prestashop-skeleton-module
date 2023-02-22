@@ -1,5 +1,5 @@
 {
-  "name": "cbatista8a/cdskeletron",
+  "name": "cbatista8a/prestashop-skeleton-module",
   "description": "A base prestashop module for development",
   "minimum-stability": "stable",
   "license": "MIT",
@@ -16,7 +16,7 @@
     "classmap": [
       "controllers",
       "classes",
-      "cdskeletron.php"
+      "skeleton.php"
     ]
   },
   "require": {

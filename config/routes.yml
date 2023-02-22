@@ -1,5 +1,5 @@
 example:
-  path: cdskeletron/example
+  path: skeleton/example
   methods: [GET]
   defaults:
     _controller: 'CubaDevOps\controllers\admin\Example::example'

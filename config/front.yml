@@ -3,6 +3,6 @@ front-example:
   methods: [GET]
   defaults:
 #    is mandatory the name of module for custom legacy routes loader
-    _module: 'cdskeletron'
+    _module: 'skeleton'
     _controller: 'example'
     _legacy_controller: AdminController
