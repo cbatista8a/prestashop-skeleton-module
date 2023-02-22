@@ -26,7 +26,7 @@
 <div class="panel">
 	<div class="row moduleconfig-header">
 		<div class="col-xs-12 text-center" style="display: flex;justify-content: center;">
-			<h2>{l s='By Cuba Devops' mod='cdskeletron'}</h2>
+			<h2>{l s='By Cuba Devops' d="Modules.Skeleton.Admin"}</h2>
 			<img src="{$module_dir|escape:'html':'UTF-8'}logo.png" width="84px" height="84px"/>
 		</div>
 	</div>

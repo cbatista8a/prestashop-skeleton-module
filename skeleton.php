@@ -384,4 +384,9 @@ class Skeleton extends Module implements WidgetInterface
     {
         return [];
     }
+
+    public function isUsingNewTranslationSystem()
+    {
+        return true;
+    }
 }
