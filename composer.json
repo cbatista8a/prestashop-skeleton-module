@@ -21,7 +21,7 @@
   },
   "autoload-dev": {
     "psr-4": {
-      "CubaDevOps\\Test\\": "tests/"
+      "CubaDevOps\\Skeleton\\Test\\": "tests/"
     }
   },
   "require": {
