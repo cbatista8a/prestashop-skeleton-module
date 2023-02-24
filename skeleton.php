@@ -11,6 +11,9 @@
  * THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY, FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL THE AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM, OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
  */
 
+use CubaDevOps\Skeleton\application\ConfigurationRepository;
+use CubaDevOps\Skeleton\Domain\FormFieldsDefinition;
+use CubaDevOps\Skeleton\Domain\ValueObjects\FormField;
 use CubaDevOps\Skeleton\utils\RoutesLoader;
 use PrestaShop\PrestaShop\Core\Module\WidgetInterface;
 
@@ -36,6 +39,14 @@ class Skeleton extends Module implements WidgetInterface
 
     private $html;
     private $routingConfigLoader;
+    /**
+     * @var ConfigurationRepository
+     */
+    private $config_repository;
+    /**
+     * @var FormFieldsDefinition
+     */
+    private $form_fields_definition;
 
     public function __construct()
     {
@@ -55,12 +66,11 @@ class Skeleton extends Module implements WidgetInterface
 
         $this->ps_versions_compliancy = array('min' => '1.7', 'max' => _PS_VERSION_);
 
-        $this->shop_context = Shop::getContext();
-        $this->shop_group = Shop::getContextShopGroupID();
-        $this->shop_id = $this->context->shop->id;
 
         $this->autoload();
         $this->routingConfigLoader = new RoutesLoader($this->local_path . 'config');
+        $this->config_repository = $this->get(ConfigurationRepository::class);
+        $this->form_fields_definition = $this->getFormFieldsDefinition();
     }
 
     private function autoload()
@@ -99,30 +109,24 @@ class Skeleton extends Module implements WidgetInterface
 
     protected function deleteConfigValues()
     {
-        $fields = $this->getFormFields();
-
-        foreach ($fields['single_lang'] as $field) {
-            Configuration::deleteByName($field);
-        }
-
-        foreach ($fields['multi_lang'] as $lang_field) {
-            Configuration::deleteByName($lang_field);
-        }
+        $this->config_repository->delete($this->form_fields_definition->getFormId());
     }
 
     /**
-     * @return array
+     * @return FormFieldsDefinition
      */
-    public function getFormFields(): array
+    private function getFormFieldsDefinition(): FormFieldsDefinition
     {
-        return [
-            'single_lang' => [
-                self::PREFIX . 'ACTIVE',
-                self::PREFIX . 'LIVE_MODE',
-                self::PREFIX . 'TEXT',
-            ],
-            'multi_lang' => [],
-        ];
+        $form = $this->config_repository ? $this->config_repository->findById($this->name) : null;
+        if($form){
+            return $form;
+        }
+
+        $form_fields = new FormFieldsDefinition($this->name);
+        $form_fields->addField(new FormField(self::PREFIX . 'ACTIVE', ''))
+                    ->addField(new FormField(self::PREFIX . 'LIVE_MODE', ''))
+                    ->addField(new FormField(self::PREFIX . 'TEXT', array_fill_keys(Language::getIDs(), ''),true));
+        return $form_fields;
     }
 
     /**
@@ -156,36 +160,18 @@ class Skeleton extends Module implements WidgetInterface
 
     protected function saveConfigFormValues(): void
     {
-        $fields = $this->getFormFields();
-
-        foreach ($fields['single_lang'] as $field) {
-            $this->updateConfigValue($field, Tools::getValue($field));
+        foreach ($this->form_fields_definition->getFields() as $field) {
+            $value = $field->isMultilang() ? $this->captureMultilingualValue($field->getName()) : Tools::getValue($field->getName());
+            $this->form_fields_definition->updateField($field->getName(), $value);
         }
-
-        foreach ($fields['multi_lang'] as $lang_field) {
-            $this->updateConfigValue($lang_field, $this->captureMultilingualValue($lang_field));
-        }
-    }
-
-    protected function updateConfigValue($key, $value)
-    {
-        switch ($this->shop_context) {
-            case Shop::CONTEXT_SHOP:
-                Configuration::updateValue($key, $value, true, $this->shop_group, $this->shop_id);
-                break;
-            case Shop::CONTEXT_GROUP:
-                Configuration::updateValue($key, $value, true, $this->shop_group, null);
-                break;
-            default:
-                Configuration::updateValue($key, $value, true);
-                break;
-        }
+        $this->config_repository->persist($this->form_fields_definition);
+        $this->html .= $this->displayConfirmation($this->trans('Form was saved!',[],'Modules.Skeleton.Admin'));
     }
 
     protected function captureMultilingualValue($key)
     {
         $value = [];
-        foreach (Language::getIDs(false) as $id_lang) {
+        foreach (Language::getIDs() as $id_lang) {
             $value[$id_lang] = Tools::getValue($key . '_' . $id_lang);
         }
         return $value;
@@ -196,7 +182,6 @@ class Skeleton extends Module implements WidgetInterface
      * @param array $form_config
      * @param string $btn_submit_name
      * @return string
-     * @throws PrestaShopException
      */
     protected function renderForm($form_config, $btn_submit_name = null)
     {
@@ -214,7 +199,7 @@ class Skeleton extends Module implements WidgetInterface
         $helper->token = Tools::getAdminTokenLite('AdminModules');
 
         $helper->tpl_vars = array(
-            'fields_value' => $this->getConfigFormValues(), /* Add values for your inputs */
+            'fields_value' => $this->form_fields_definition->toArray(), /* Add values for your inputs */
             'languages' => $this->context->controller->getLanguages(),
             'id_language' => $this->context->language->id,
         );
@@ -222,44 +207,11 @@ class Skeleton extends Module implements WidgetInterface
         return $helper->generateForm(array($form_config));
     }
 
-    /**
-     * Set values for the inputs.
-     */
-    protected function getConfigFormValues(): array
+    protected function getConfigValue($key)
     {
-        $fields = $this->getFormFields();
-
-        $single_lang_fields = [];
-        foreach ($fields['single_lang'] as $field) {
-            $single_lang_fields[$field] = $this->getConfigValue($field);
-        }
-        $multi_lang_fields = [];
-        foreach ($fields['multi_lang'] as $lang_field) {
-            $multi_lang_fields[$lang_field] = $this->getMultilingualValue($lang_field);
-        }
-        return array_merge($single_lang_fields, $multi_lang_fields);
-    }
-
-    protected function getConfigValue($key, $lang = null, $default = null)
-    {
-        switch ($this->shop_context) {
-            case Shop::CONTEXT_SHOP:
-                return Configuration::get($key, $lang, $this->shop_group, $this->shop_id, $default);
-                break;
-            case Shop::CONTEXT_GROUP:
-                return Configuration::get($key, $lang, $this->shop_group, null, $default);
-                break;
-        }
-        return Configuration::get($key, $lang, null, null, $default);
-    }
-
-    protected function getMultilingualValue($key): array
-    {
-        $value = [];
-        foreach (Language::getIDs(false) as $id_lang) {
-            $value[$id_lang] = $this->getConfigValue($key, $id_lang);
-        }
-        return $value;
+        /** @var FormField $field */
+        $field = $this->form_fields_definition->getField($key);
+        return $field->getValue();
     }
 
     private function getConfigForm(): array
@@ -312,6 +264,7 @@ class Skeleton extends Module implements WidgetInterface
                     array(
                         'col' => 4,
                         'type' => 'text',
+                        'lang' => true,
                         'prefix' => '<i class="icon icon-envelope"></i>',
                         'desc' => $this->trans('Example Field',[],'Modules.Skeleton.Admin'),
                         'name' => self::PREFIX . 'TEXT',

@@ -1,0 +1,14 @@
+services:
+  _defaults:
+    public: true
+    autowire: true
+    autoconfigure: true
+
+  legacy_context:
+    class: Context
+    factory: ['Context','getContext']
+
+  CubaDevOps\Skeleton\application\ConfigurationRepository:
+    class: CubaDevOps\Skeleton\application\ConfigurationRepository
+    arguments:
+      - '@legacy_context'
