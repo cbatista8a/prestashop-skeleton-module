@@ -14,6 +14,7 @@
 namespace CubaDevOps\Skeleton\controllers\admin;
 
 
+use CubaDevOps\Skeleton\application\ConfigurationRepository;
 use PrestaShopBundle\Controller\Admin\FrameworkBundleAdminController;
 
 class Example extends FrameworkBundleAdminController
@@ -26,7 +27,8 @@ class Example extends FrameworkBundleAdminController
 
     public function example()
     {
-        return $this->render($this->template_path.'admin-example.html.twig',['text' => 'Wellcome to Example Admin Controller']);
+        $name = $this->get(ConfigurationRepository::class)->getModuleName();
+        return $this->render($this->template_path.'admin-example.html.twig',['text' => "Welcome to Example Admin Controller on $name module"]);
 
         /* this for ajax or API response */
         /* return $this->json('Example Admin Controller'); */
