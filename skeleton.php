@@ -88,8 +88,6 @@ class Skeleton extends Module implements WidgetInterface
             $this->registerHooks();
     }
 
-    //TODO implement install and uninstall sql and tabs
-
     public function registerHooks()
     {
         $hooks = [
