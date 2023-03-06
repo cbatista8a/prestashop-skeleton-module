@@ -68,9 +68,7 @@ class Skeleton extends Module implements WidgetInterface
 
 
         $this->autoload();
-        $this->routingConfigLoader = new RoutesLoader($this->local_path . 'config');
-        $this->config_repository = $this->get(ConfigurationRepository::class);
-        $this->form_fields_definition = $this->getFormFieldsDefinition();
+        $this->loadConfigurationService();
     }
 
     private function autoload()
@@ -205,6 +203,20 @@ class Skeleton extends Module implements WidgetInterface
         return $helper->generateForm(array($form_config));
     }
 
+    /**
+     * @return void
+     * @throws Exception
+     */
+    public function loadConfigurationService()
+    {
+        try {
+            $this->config_repository = $this->get(ConfigurationRepository::class);
+        } catch (Exception $e) {
+            return; //avoid error on module install because services aren't load yet
+        }
+        $this->form_fields_definition = $this->getFormFieldsDefinition();
+    }
+
     protected function getConfigValue($key)
     {
         /** @var FormField $field */
@@ -318,8 +330,9 @@ class Skeleton extends Module implements WidgetInterface
         if (!file_exists($this->local_path . 'config/front.yml')) {
             return [];
         }
+        $routingConfigLoader = new RoutesLoader($this->local_path . 'config');
 
-        return $this->routingConfigLoader->load('front.yml', true);
+        return $routingConfigLoader->load('front.yml', true);
     }
 
     public function renderWidget($hookName, array $configuration)
