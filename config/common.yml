@@ -8,7 +8,7 @@ services:
     class: Context
     factory: ['Context','getContext']
 
-  CubaDevOps\Skeleton\application\ConfigurationRepository:
-    class: CubaDevOps\Skeleton\application\ConfigurationRepository
+  CubaDevOps\Skeleton\Application\ConfigurationRepository:
+    class: CubaDevOps\Skeleton\Application\ConfigurationRepository
     arguments:
       - '@legacy_context'

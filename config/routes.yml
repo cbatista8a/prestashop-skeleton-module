@@ -2,5 +2,5 @@ example:
   path: skeleton/example
   methods: [GET]
   defaults:
-    _controller: 'CubaDevOps\Skeleton\controllers\admin\Example::example'
+    _controller: 'CubaDevOps\Skeleton\Controllers\Admin\Example::example'
     _disable_module_prefix: true

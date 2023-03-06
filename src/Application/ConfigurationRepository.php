@@ -1,11 +1,10 @@
 <?php
 
-namespace CubaDevOps\Skeleton\application;
+namespace CubaDevOps\Skeleton\Application;
 
 use Configuration;
 use Context;
 use CubaDevOps\Skeleton\Domain\FormFieldsDefinition;
-use Tools;
 
 class ConfigurationRepository
 {
