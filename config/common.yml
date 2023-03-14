@@ -12,3 +12,13 @@ services:
     class: CubaDevOps\Skeleton\Application\ConfigurationRepository
     arguments:
       - '@legacy_context'
+
+  CubaDevOps\Skeleton\Application\MigrationsLoader:
+    class: CubaDevOps\Skeleton\Application\MigrationsLoader
+
+  CubaDevOps\Skeleton\EventSubscriber\InstallerManager:
+    class: CubaDevOps\Skeleton\EventSubscriber\InstallerManager
+    arguments:
+      - '@CubaDevOps\Skeleton\Application\MigrationsLoader'
+    tags:
+      - { name: kernel.event_subscriber }

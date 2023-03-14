@@ -12,8 +12,10 @@
  */
 
 use CubaDevOps\Skeleton\Application\ConfigurationRepository;
+use CubaDevOps\Skeleton\Application\MigrationsLoader;
 use CubaDevOps\Skeleton\Domain\FormFieldsDefinition;
 use CubaDevOps\Skeleton\Domain\ValueObjects\FormField;
+use CubaDevOps\Skeleton\EventSubscriber\InstallerManager;
 use CubaDevOps\Skeleton\Utils\RoutesLoader;
 use PrestaShop\PrestaShop\Core\Module\WidgetInterface;
 
@@ -81,7 +83,10 @@ class Skeleton extends Module implements WidgetInterface
 
     public function install()
     {
-        include(dirname(__FILE__).'/sql/install.php');
+
+        $installer = new InstallerManager(new MigrationsLoader());
+        $installer->onInstall($this->version);
+
         return parent::install() &&
             $this->registerHooks();
     }
@@ -98,7 +103,6 @@ class Skeleton extends Module implements WidgetInterface
 
     public function uninstall()
     {
-        include(dirname(__FILE__).'/sql/uninstall.php');
         $this->deleteConfigValues();
         return parent::uninstall();
     }
