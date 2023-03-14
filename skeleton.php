@@ -64,7 +64,7 @@ class Skeleton extends Module implements WidgetInterface
         $this->displayName = $this->trans('Skeleton Module',[],'Modules.Skeleton.Admin');
         $this->description = $this->trans('A base module for Prestashop development',[],'Modules.Skeleton.Admin');
 
-        $this->confirmUninstall = $this->trans('Are you sure you want uninstall this module?',[],'Modules.Skeleton.Admin');
+        $this->confirmUninstall = $this->trans('Are you sure you want to uninstall this module?',[],'Modules.Skeleton.Admin');
 
         $this->ps_versions_compliancy = array('min' => '1.7', 'max' => _PS_VERSION_);
 
