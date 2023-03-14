@@ -2,7 +2,7 @@
 <module>
     <name>skeleton</name>
     <displayName><![CDATA[Skeleton Module]]></displayName>
-    <version><![CDATA[1.1.1]]></version>
+    <version><![CDATA[1.2.1]]></version>
     <description><![CDATA[A base module for Prestashop development]]></description>
     <author><![CDATA[Cuba Devops]]></author>
     <tab><![CDATA[administration]]></tab>

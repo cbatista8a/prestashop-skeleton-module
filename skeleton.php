@@ -54,7 +54,7 @@ class Skeleton extends Module implements WidgetInterface
     {
         $this->name = 'skeleton';
         $this->tab = 'administration';
-        $this->version = '1.1.1';
+        $this->version = '1.2.1';
         $this->author = 'Cuba Devops';
         $this->need_instance = 1;
         $this->bootstrap = true;
